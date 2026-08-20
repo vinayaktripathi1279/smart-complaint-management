@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Smart Complaint System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            🏛️ Smart Service Portal
+        </a>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Create Account</h2>
+            <p>Register as a student/user to lodge complaints</p>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" class="form-control" placeholder="e.g. Rahul Sharma" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="student@service.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">User Role</label>
+                <select id="role" class="form-control">
+                    <option value="USER" selected>Student / General User</option>
+                    <option value="ADMIN">Administrator (Demo)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                Create Account
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.25rem; font-size: 0.9rem; color: var(--text-secondary);">
+            Already registered? <a href="login.html" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Sign In</a>
+        </p>
+    </div>
+
+    <footer>
+        Smart Complaint Management System &copy; 2026
+    </footer>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

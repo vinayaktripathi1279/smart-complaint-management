@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Smart Complaint System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="user-dashboard.html" class="navbar-brand">
+            🏛️ Smart Service Portal
+        </a>
+        <div class="nav-links">
+            <span id="navUser" class="user-info"></span>
+            <button onclick="logout()" class="btn btn-secondary btn-sm">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <div>
+                <h1 style="font-size: 1.75rem; font-weight: 700;">Welcome, <span id="welcomeUserName">User</span></h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Track and raise hostel/campus maintenance service requests</p>
+            </div>
+            <button onclick="document.getElementById('raiseComplaintModal').style.display='flex'" class="btn btn-primary">
+                ➕ Raise New Complaint
+            </button>
+        </div>
+
+        <!-- Metrics Overview Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Total Complaints</div>
+                <div id="statTotal" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Open</div>
+                <div id="statOpen" class="stat-value" style="color: var(--status-open);">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">In Progress</div>
+                <div id="statInProgress" class="stat-value" style="color: var(--status-in-progress);">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Resolved</div>
+                <div id="statResolved" class="stat-value" style="color: var(--status-resolved);">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Closed</div>
+                <div id="statClosed" class="stat-value" style="color: var(--status-closed);">0</div>
+            </div>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <!-- My Complaints Table -->
+        <div class="card-table">
+            <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.1rem; font-weight: 700;">My Complaints History</h3>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Complaint ID</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userComplaintsTable">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem;">Loading complaints...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Raise Complaint Modal -->
+    <div id="raiseComplaintModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1rem;">
+        <div style="background: white; width: 100%; max-width: 540px; border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-lg);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="font-size: 1.25rem; font-weight: 700;">Raise New Complaint</h3>
+                <button onclick="document.getElementById('raiseComplaintModal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+
+            <form id="raiseComplaintForm">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" class="form-control" required>
+                        <option value="" disabled selected>Select category</option>
+                        <option value="Internet">Internet / Wi-Fi</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="Plumbing">Plumbing</option>
+                        <option value="Cleaning">Cleaning / Hygiene</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select id="priority" class="form-control" required>
+                        <option value="LOW">LOW</option>
+                        <option value="MEDIUM" selected>MEDIUM</option>
+                        <option value="HIGH">HIGH</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Detailed Description</label>
+                    <textarea id="description" class="form-control" placeholder="Describe the issue clearly (e.g. Wi-Fi dropping in Room 304)..." required></textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button type="button" onclick="document.getElementById('raiseComplaintModal').style.display='none'" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Complaint</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        Smart Complaint Management System &copy; 2026
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/user.js"></script>
+</body>
+</html>
