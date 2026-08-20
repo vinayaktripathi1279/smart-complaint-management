@@ -2,7 +2,7 @@
 
 ---
 
-### 🌐 **LIVE DEMO LINK**: [https://vinayaktripathi1279.github.io/smart-complaint-management/](https://vinayaktripathi1279.github.io/smart-complaint-management/)
+### 🌐 **LIVE DEMO LINK**: [https://raw.githack.com/vinayaktripathi1279/smart-complaint-management/gh-pages/index.html](https://raw.githack.com/vinayaktripathi1279/smart-complaint-management/gh-pages/index.html)
 
 🔑 **Demo Quick Credentials**:
 - **Student Login**: `student@service.com` | Password: `student123`
@@ -10,7 +10,7 @@
 
 ---
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=github)](https://vinayaktripathi1279.github.io/smart-complaint-management/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=cloudflare)](https://raw.githack.com/vinayaktripathi1279/smart-complaint-management/gh-pages/index.html)
 [![Java 17](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=java)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.3-green?style=for-the-badge&logo=springboot)](https://spring.io/projects/spring-boot)
 
