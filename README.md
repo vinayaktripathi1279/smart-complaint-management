@@ -2,15 +2,15 @@
 
 ---
 
-### 🌐 **LIVE DEMO LINK**: [https://smart-complaint-management-vinay.onrender.com](https://smart-complaint-management-vinay.onrender.com)
+### 🌐 **INSTANT LIVE DEMO LINK**: [https://vinayaktripathi1279.github.io/smart-complaint-management/](https://vinayaktripathi1279.github.io/smart-complaint-management/)
 
-🔑 **Demo Credentials**:
+🔑 **Demo Quick Credentials**:
 - **Student Login**: `student@service.com` | Password: `student123`
 - **Admin Login**: `admin@service.com` | Password: `admin123`
 
 ---
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=render)](https://smart-complaint-management-vinay.onrender.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=github)](https://vinayaktripathi1279.github.io/smart-complaint-management/)
 [![Java 17](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=java)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.3-green?style=for-the-badge&logo=springboot)](https://spring.io/projects/spring-boot)
 
@@ -153,11 +153,3 @@ Once started, open browser at: **`http://localhost:8080`**
 
 - **Admin Account**: `admin@service.com` / `admin123`
 - **Student User Account**: `student@service.com` / `student123`
-
----
-
-## 🔮 9. Future Production Improvements
-1. **JWT Authentication**: Introduce JSON Web Tokens (JWT) with Spring Security filters.
-2. **Notification System**: Integration with Email/SMS gateway (Twilio/SendGrid) on status updates.
-3. **File Attachments**: Allow users to upload photos of broken equipment via Amazon S3 / MultipartFile storage.
-4. **Service Level Agreement (SLA) Escalation**: Auto-escalate complaints if pending past SLA threshold (e.g. HIGH priority unresolved for 24h).

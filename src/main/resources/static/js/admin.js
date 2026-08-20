@@ -1,4 +1,4 @@
-// Admin Dashboard Manager
+// Admin Dashboard Manager (Supports Instant Interactive Live Web Demo)
 let adminUser = null;
 let currentActiveComplaintId = null;
 
@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAdminStats();
     loadAdminComplaints();
 
-    // Attach Search & Filter Listeners
     const searchInput = document.getElementById('searchInput');
     const filterStatus = document.getElementById('filterStatus');
     const filterPriority = document.getElementById('filterPriority');
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Modal Form Submissions
     const statusForm = document.getElementById('updateStatusForm');
     if (statusForm) statusForm.addEventListener('submit', submitStatusUpdate);
 
@@ -45,18 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadAdminStats() {
     try {
         const res = await fetch('/api/admin/dashboard');
-        if (!res.ok) throw new Error('Failed to load dashboard metrics');
-        const stats = await res.json();
+        if (res.ok) {
+            const stats = await res.json();
+            document.getElementById('statTotal').innerText = stats.totalComplaints;
+            document.getElementById('statOpen').innerText = stats.openComplaints;
+            document.getElementById('statInProgress').innerText = stats.inProgressComplaints;
+            document.getElementById('statResolved').innerText = stats.resolvedComplaints;
+            document.getElementById('statClosed').innerText = stats.closedComplaints;
+            document.getElementById('statHighPriority').innerText = stats.highPriorityComplaints;
+            return;
+        }
+    } catch (err) {}
 
-        document.getElementById('statTotal').innerText = stats.totalComplaints;
-        document.getElementById('statOpen').innerText = stats.openComplaints;
-        document.getElementById('statInProgress').innerText = stats.inProgressComplaints;
-        document.getElementById('statResolved').innerText = stats.resolvedComplaints;
-        document.getElementById('statClosed').innerText = stats.closedComplaints;
-        document.getElementById('statHighPriority').innerText = stats.highPriorityComplaints;
-    } catch (err) {
-        console.error(err);
-    }
+    // Fallback metrics calculation for live web demo
+    const complaints = getStoredComplaints();
+    document.getElementById('statTotal').innerText = complaints.length;
+    document.getElementById('statOpen').innerText = complaints.filter(c => c.status === 'OPEN').length;
+    document.getElementById('statInProgress').innerText = complaints.filter(c => c.status === 'IN_PROGRESS' || c.status === 'ASSIGNED').length;
+    document.getElementById('statResolved').innerText = complaints.filter(c => c.status === 'RESOLVED').length;
+    document.getElementById('statClosed').innerText = complaints.filter(c => c.status === 'CLOSED').length;
+    document.getElementById('statHighPriority').innerText = complaints.filter(c => c.priority === 'HIGH').length;
 }
 
 async function loadAdminComplaints() {
@@ -66,65 +72,74 @@ async function loadAdminComplaints() {
     const status = document.getElementById('filterStatus') ? document.getElementById('filterStatus').value : '';
     const priority = document.getElementById('filterPriority') ? document.getElementById('filterPriority').value : '';
     const category = document.getElementById('filterCategory') ? document.getElementById('filterCategory').value : '';
-    const search = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
+    const search = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim().toLowerCase() : '';
 
-    const queryParams = new URLSearchParams({ status, priority, category, search });
-
+    let complaints = [];
     try {
+        const queryParams = new URLSearchParams({ status, priority, category, search });
         const res = await fetch(`/api/admin/complaints?${queryParams.toString()}`);
-        if (!res.ok) throw new Error('Failed to load complaints list');
-
-        const complaints = await res.json();
-
-        if (complaints.length === 0) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="8" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
-                        No matching complaints found. Try adjusting your filter criteria.
-                    </td>
-                </tr>
-            `;
-            return;
+        if (res.ok) {
+            complaints = await res.json();
+        } else {
+            throw new Error('API offline');
         }
+    } catch (err) {
+        complaints = getStoredComplaints();
+        if (status) complaints = complaints.filter(c => c.status === status);
+        if (priority) complaints = complaints.filter(c => c.priority === priority);
+        if (category) complaints = complaints.filter(c => c.category === category);
+        if (search) {
+            complaints = complaints.filter(c => 
+                c.id.toString().includes(search) || 
+                c.userName.toLowerCase().includes(search) || 
+                c.description.toLowerCase().includes(search)
+            );
+        }
+    }
 
-        tableBody.innerHTML = complaints.map(c => `
+    if (complaints.length === 0) {
+        tableBody.innerHTML = `
             <tr>
-                <td><strong>#CMP-${c.id}</strong></td>
-                <td>${escapeHtml(c.userName)}<br><small style="color:var(--text-secondary);">${escapeHtml(c.userEmail)}</small></td>
-                <td>${escapeHtml(c.category)}</td>
-                <td>
-                    <span class="badge badge-priority-${c.priority.toLowerCase()}">${c.priority}</span>
-                    <button class="btn btn-sm" style="padding:0; margin-left:4px;" onclick="openPriorityModal(${c.id}, '${c.priority}')" title="Change Priority">✏️</button>
-                </td>
-                <td>
-                    <span class="badge badge-${c.status.toLowerCase()}">${c.status.replace('_', ' ')}</span>
-                    <button class="btn btn-sm" style="padding:0; margin-left:4px;" onclick="openStatusModal(${c.id}, '${c.status}')" title="Change Status">✏️</button>
-                </td>
-                <td>
-                    ${c.assignedTo ? escapeHtml(c.assignedTo) : '<em style="color:var(--text-secondary);">Unassigned</em>'}
-                    <button class="btn btn-sm" style="padding:0; margin-left:4px;" onclick="openAssignModal(${c.id}, '${escapeHtml(c.assignedTo || '')}')" title="Assign Technician">👤</button>
-                </td>
-                <td>${formatDate(c.createdAt)}</td>
-                <td>
-                    <div style="display:flex; gap:0.4rem;">
-                        <a href="complaint.html?id=${c.id}" class="btn btn-sm btn-secondary" title="View Details">
-                            👁️ View
-                        </a>
-                        <button onclick="deleteComplaint(${c.id})" class="btn btn-sm btn-danger" title="Delete Complaint">
-                            🗑️
-                        </button>
-                    </div>
+                <td colspan="8" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                    No matching complaints found. Try adjusting your filter criteria.
                 </td>
             </tr>
-        `).join('');
-
-    } catch (err) {
-        console.error(err);
-        tableBody.innerHTML = `<tr><td colspan="8" style="color: red; text-align: center;">Error loading admin dataset.</td></tr>`;
+        `;
+        return;
     }
+
+    tableBody.innerHTML = complaints.map(c => `
+        <tr>
+            <td><strong>#CMP-${c.id}</strong></td>
+            <td>${escapeHtml(c.userName)}<br><small style="color:var(--text-secondary);">${escapeHtml(c.userEmail)}</small></td>
+            <td>${escapeHtml(c.category)}</td>
+            <td>
+                <span class="badge badge-priority-${c.priority.toLowerCase()}">${c.priority}</span>
+                <button class="btn btn-sm" style="padding:0; margin-left:4px;" onclick="openPriorityModal(${c.id}, '${c.priority}')" title="Change Priority">✏️</button>
+            </td>
+            <td>
+                <span class="badge badge-${c.status.toLowerCase()}">${c.status.replace('_', ' ')}</span>
+                <button class="btn btn-sm" style="padding:0; margin-left:4px;" onclick="openStatusModal(${c.id}, '${c.status}')" title="Change Status">✏️</button>
+            </td>
+            <td>
+                ${c.assignedTo ? escapeHtml(c.assignedTo) : '<em style="color:var(--text-secondary);">Unassigned</em>'}
+                <button class="btn btn-sm" style="padding:0; margin-left:4px;" onclick="openAssignModal(${c.id}, '${escapeHtml(c.assignedTo || '')}')" title="Assign Technician">👤</button>
+            </td>
+            <td>${formatDate(c.createdAt)}</td>
+            <td>
+                <div style="display:flex; gap:0.4rem;">
+                    <a href="complaint.html?id=${c.id}" class="btn btn-sm btn-secondary" title="View Details">
+                        👁️ View
+                    </a>
+                    <button onclick="deleteComplaint(${c.id})" class="btn btn-sm btn-danger" title="Delete Complaint">
+                        🗑️
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
 }
 
-// Modal Control Functions
 function openStatusModal(id, currentStatus) {
     currentActiveComplaintId = id;
     document.getElementById('statusModalCmpId').innerText = `#CMP-${id}`;
@@ -163,17 +178,24 @@ async function submitStatusUpdate(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus })
         });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Failed to update status');
-
-        showAlert('Status updated successfully!', 'success');
-        closeModal('statusModal');
-        loadAdminStats();
-        loadAdminComplaints();
+        if (!res.ok) throw new Error('API error');
     } catch (err) {
-        alert(err.message);
+        const all = getStoredComplaints();
+        const target = all.find(c => c.id == currentActiveComplaintId);
+        if (target) {
+            if (target.status === 'CLOSED') {
+                alert('Invalid transition: A CLOSED complaint cannot be modified!');
+                return;
+            }
+            target.status = newStatus;
+            target.updatedAt = new Date().toISOString();
+            saveStoredComplaints(all);
+        }
     }
+
+    closeModal('statusModal');
+    loadAdminStats();
+    loadAdminComplaints();
 }
 
 async function submitAssignTechnician(e) {
@@ -188,17 +210,21 @@ async function submitAssignTechnician(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ assignedTo })
         });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Failed to assign technician');
-
-        showAlert('Technician assigned successfully!', 'success');
-        closeModal('assignModal');
-        loadAdminStats();
-        loadAdminComplaints();
+        if (!res.ok) throw new Error('API error');
     } catch (err) {
-        alert(err.message);
+        const all = getStoredComplaints();
+        const target = all.find(c => c.id == currentActiveComplaintId);
+        if (target) {
+            target.assignedTo = assignedTo;
+            if (target.status === 'OPEN') target.status = 'ASSIGNED';
+            target.updatedAt = new Date().toISOString();
+            saveStoredComplaints(all);
+        }
     }
+
+    closeModal('assignModal');
+    loadAdminStats();
+    loadAdminComplaints();
 }
 
 async function submitPriorityUpdate(e) {
@@ -213,32 +239,35 @@ async function submitPriorityUpdate(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ priority })
         });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Failed to update priority');
-
-        showAlert('Priority updated successfully!', 'success');
-        closeModal('priorityModal');
-        loadAdminStats();
-        loadAdminComplaints();
+        if (!res.ok) throw new Error('API error');
     } catch (err) {
-        alert(err.message);
+        const all = getStoredComplaints();
+        const target = all.find(c => c.id == currentActiveComplaintId);
+        if (target) {
+            target.priority = priority;
+            target.updatedAt = new Date().toISOString();
+            saveStoredComplaints(all);
+        }
     }
+
+    closeModal('priorityModal');
+    loadAdminStats();
+    loadAdminComplaints();
 }
 
 async function deleteComplaint(id) {
     if (!confirm(`Are you sure you want to delete complaint #CMP-${id}?`)) return;
 
     try {
-        const res = await fetch(`/api/complaints/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Failed to delete complaint');
+        await fetch(`/api/complaints/${id}`, { method: 'DELETE' });
+    } catch (err) {}
 
-        showAlert(`Complaint #CMP-${id} deleted cleanly.`, 'success');
-        loadAdminStats();
-        loadAdminComplaints();
-    } catch (err) {
-        alert(err.message);
-    }
+    const all = getStoredComplaints();
+    const filtered = all.filter(c => c.id != id);
+    saveStoredComplaints(filtered);
+
+    loadAdminStats();
+    loadAdminComplaints();
 }
 
 function debounce(func, wait) {
@@ -251,20 +280,4 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
-}
-
-function formatDate(dtStr) {
-    if (!dtStr) return 'N/A';
-    const dt = new Date(dtStr);
-    return dt.toLocaleString('en-US', {
-        month: 'short', day: 'numeric', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-    });
-}
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>"']/g, function(m) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
-    });
 }
