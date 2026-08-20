@@ -1,6 +1,16 @@
 # Smart Complaint & Service Management System
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=render)](https://smart-complaint-management.onrender.com)
+---
+
+### 🌐 **LIVE DEMO LINK**: [https://smart-complaint-management-vinay.onrender.com](https://smart-complaint-management-vinay.onrender.com)
+
+🔑 **Demo Credentials**:
+- **Student Login**: `student@service.com` | Password: `student123`
+- **Admin Login**: `admin@service.com` | Password: `admin123`
+
+---
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=render)](https://smart-complaint-management-vinay.onrender.com)
 [![Java 17](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=java)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.3-green?style=for-the-badge&logo=springboot)](https://spring.io/projects/spring-boot)
 
@@ -127,32 +137,14 @@ The **Smart Complaint & Service Management System** centralizes service requests
 
 ---
 
-## ⚙️ 7. Setup & MySQL Configuration
+## ⚙️ 7. Setup & Local Execution
 
-### Step 1: Clone or Navigate to Project Directory
-```bash
-cd smart-complaint-management
-```
-
-### Step 2: Configure Database
-Runs automatically out-of-the-box using H2 In-Memory Database.
-To use MySQL, create database:
-```sql
-CREATE DATABASE smart_complaint_db;
-```
-
-And update `src/main/resources/application.properties`:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/smart_complaint_db
-spring.datasource.username=root
-spring.datasource.password=YOUR_MYSQL_PASSWORD
-```
-
-### Step 3: Build & Run Application
+### Step 1: Run Pre-built Executable Application
 ```bash
 java -jar target/smart-complaint-management-1.0.0.jar
 ```
 
+### Step 2: Access in Browser
 Once started, open browser at: **`http://localhost:8080`**
 
 ---
