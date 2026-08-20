@@ -2,7 +2,7 @@
 
 ---
 
-### 🌐 **INSTANT LIVE DEMO LINK**: [https://htmlpreview.github.io/?https://github.com/vinayaktripathi1279/smart-complaint-management/blob/main/src/main/resources/static/index.html](https://htmlpreview.github.io/?https://github.com/vinayaktripathi1279/smart-complaint-management/blob/main/src/main/resources/static/index.html)
+### 🌐 **LIVE DEMO LINK**: [https://vinayaktripathi1279.github.io/smart-complaint-management/](https://vinayaktripathi1279.github.io/smart-complaint-management/)
 
 🔑 **Demo Quick Credentials**:
 - **Student Login**: `student@service.com` | Password: `student123`
@@ -10,7 +10,7 @@
 
 ---
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=github)](https://htmlpreview.github.io/?https://github.com/vinayaktripathi1279/smart-complaint-management/blob/main/src/main/resources/static/index.html)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=github)](https://vinayaktripathi1279.github.io/smart-complaint-management/)
 [![Java 17](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=java)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.3-green?style=for-the-badge&logo=springboot)](https://spring.io/projects/spring-boot)
 
