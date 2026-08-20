@@ -2,13 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=src/main/resources/static/index.html">
-    <title>Smart Complaint System - Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Complaint & Service Management System</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <p>Redirecting to <a href="src/main/resources/static/index.html">Smart Complaint System Portal</a>...</p>
-    <script>
-        window.location.href = "src/main/resources/static/index.html";
-    </script>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            🏛️ Smart Service Portal
+        </a>
+        <div class="nav-links">
+            <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+            <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+        </div>
+    </nav>
+
+    <div class="container" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+        <div style="max-width: 700px; padding: 3rem 1rem;">
+            <span class="badge badge-open" style="font-size: 0.85rem; padding: 0.4rem 1rem; margin-bottom: 1.5rem;">
+                Campus & Enterprise Support System
+            </span>
+            <h1 style="font-size: 2.75rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.25rem; line-height: 1.2;">
+                Smart Complaint &amp; Service Management System
+            </h1>
+            <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2.25rem;">
+                An efficient, transparent platform for raising service requests, tracking real-time status, and managing maintenance operations seamlessly.
+            </p>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="login.html" class="btn btn-primary" style="padding: 0.9rem 2rem; font-size: 1rem;">
+                    🚀 Portal Login
+                </a>
+                <a href="register.html" class="btn btn-secondary" style="padding: 0.9rem 2rem; font-size: 1rem;">
+                    📝 Student Registration
+                </a>
+            </div>
+
+            <div style="margin-top: 3.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; text-align: left;">
+                <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <h3 style="font-size: 1rem; color: var(--primary-color); margin-bottom: 0.5rem;">⚡ Instant Raising</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Submit tickets with category, description, and priority level in seconds.</p>
+                </div>
+                <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <h3 style="font-size: 1rem; color: var(--status-in-progress); margin-bottom: 0.5rem;">📍 Live Status Tracking</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Track complaint progress from OPEN to RESOLVED in real-time.</p>
+                </div>
+                <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <h3 style="font-size: 1rem; color: var(--status-resolved); margin-bottom: 0.5rem;">⚙️ Admin Control</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Comprehensive dashboard for technicians to assign and update complaints.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Smart Complaint &amp; Service Management System &copy; 2026 | Developed for Java &amp; Spring Boot Technical Interviews
+    </footer>
 </body>
 </html>

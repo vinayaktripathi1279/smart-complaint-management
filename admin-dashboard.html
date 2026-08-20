@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Complaint System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="admin-dashboard.html" class="navbar-brand">
+            🏛️ Smart Service Admin Portal
+        </a>
+        <div class="nav-links">
+            <span id="navUser" class="user-info"></span>
+            <button onclick="logout()" class="btn btn-secondary btn-sm">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <div>
+                <h1 style="font-size: 1.75rem; font-weight: 700;">Smart Service Admin Dashboard</h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Manage campus maintenance complaints, assign staff, and update resolutions</p>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard Metrics Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Total Complaints</div>
+                <div id="statTotal" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Open</div>
+                <div id="statOpen" class="stat-value" style="color: var(--status-open);">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">In Progress</div>
+                <div id="statInProgress" class="stat-value" style="color: var(--status-in-progress);">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Resolved</div>
+                <div id="statResolved" class="stat-value" style="color: var(--status-resolved);">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Closed</div>
+                <div id="statClosed" class="stat-value" style="color: var(--status-closed);">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">High Priority</div>
+                <div id="statHighPriority" class="stat-value" style="color: var(--priority-high);">0</div>
+            </div>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <!-- Search and Multi-field Filter Controls -->
+        <div class="filter-card">
+            <div class="form-group" style="margin-bottom:0;">
+                <label for="searchInput">Search Keyword / ID</label>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search ID, user, or details...">
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+                <label for="filterStatus">Status Filter</label>
+                <select id="filterStatus" class="form-control">
+                    <option value="">All Statuses</option>
+                    <option value="OPEN">OPEN</option>
+                    <option value="ASSIGNED">ASSIGNED</option>
+                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    <option value="RESOLVED">RESOLVED</option>
+                    <option value="CLOSED">CLOSED</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+                <label for="filterPriority">Priority Filter</label>
+                <select id="filterPriority" class="form-control">
+                    <option value="">All Priorities</option>
+                    <option value="HIGH">HIGH</option>
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="LOW">LOW</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+                <label for="filterCategory">Category Filter</label>
+                <select id="filterCategory" class="form-control">
+                    <option value="">All Categories</option>
+                    <option value="Internet">Internet</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Plumbing">Plumbing</option>
+                    <option value="Cleaning">Cleaning</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <button id="btnResetFilter" class="btn btn-secondary" style="height: 42px;">
+                ↺ Clear Filters
+            </button>
+        </div>
+
+        <!-- All Complaints Admin Management Table -->
+        <div class="card-table">
+            <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color);">
+                <h3 style="font-size: 1.1rem; font-weight: 700;">All Submitted Complaints</h3>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User Details</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Assigned To</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminComplaintsTable">
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 2rem;">Loading complaints database...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Status Modal -->
+    <div id="statusModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1rem;">
+        <div style="background: white; width: 100%; max-width: 420px; border-radius: var(--radius-md); padding: 1.75rem; box-shadow: var(--shadow-lg);">
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Update Status <span id="statusModalCmpId" style="color:var(--primary-color);"></span></h3>
+            <form id="updateStatusForm">
+                <div class="form-group">
+                    <label for="newStatusSelect">New Status</label>
+                    <select id="newStatusSelect" class="form-control" required>
+                        <option value="OPEN">OPEN</option>
+                        <option value="ASSIGNED">ASSIGNED</option>
+                        <option value="IN_PROGRESS">IN_PROGRESS</option>
+                        <option value="RESOLVED">RESOLVED</option>
+                        <option value="CLOSED">CLOSED</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem;">
+                    <button type="button" onclick="closeModal('statusModal')" class="btn btn-secondary btn-sm">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Assign Technician Modal -->
+    <div id="assignModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1rem;">
+        <div style="background: white; width: 100%; max-width: 420px; border-radius: var(--radius-md); padding: 1.75rem; box-shadow: var(--shadow-lg);">
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Assign Technician <span id="assignModalCmpId" style="color:var(--primary-color);"></span></h3>
+            <form id="assignTechnicianForm">
+                <div class="form-group">
+                    <label for="assignedToInput">Technician / Department Name</label>
+                    <input type="text" id="assignedToInput" class="form-control" placeholder="e.g. Ramesh Electricals" required>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem;">
+                    <button type="button" onclick="closeModal('assignModal')" class="btn btn-secondary btn-sm">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Assign Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Priority Modal -->
+    <div id="priorityModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1rem;">
+        <div style="background: white; width: 100%; max-width: 420px; border-radius: var(--radius-md); padding: 1.75rem; box-shadow: var(--shadow-lg);">
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Update Priority <span id="priorityModalCmpId" style="color:var(--primary-color);"></span></h3>
+            <form id="updatePriorityForm">
+                <div class="form-group">
+                    <label for="newPrioritySelect">Priority Level</label>
+                    <select id="newPrioritySelect" class="form-control" required>
+                        <option value="LOW">LOW</option>
+                        <option value="MEDIUM">MEDIUM</option>
+                        <option value="HIGH">HIGH</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem;">
+                    <button type="button" onclick="closeModal('priorityModal')" class="btn btn-secondary btn-sm">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Update Priority</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        Smart Complaint Management System &copy; 2026
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

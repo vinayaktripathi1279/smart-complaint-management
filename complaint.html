@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Details - Smart Complaint System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            🏛️ Smart Service Portal
+        </a>
+        <div class="nav-links">
+            <span id="navUser" class="user-info"></span>
+            <button onclick="window.history.back()" class="btn btn-secondary btn-sm">⬅ Back</button>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 900px;">
+        <div style="margin-bottom: 1.5rem;">
+            <a href="javascript:history.back()" style="color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                &larr; Back to Dashboard
+            </a>
+        </div>
+
+        <div id="complaintDetailsCard" class="card-table" style="padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.5rem;">
+                <div>
+                    <h2 style="font-size: 1.6rem; font-weight: 700;" id="cmpId">#CMP-000</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Submitted by <span id="cmpUser" style="font-weight: 600; color: var(--text-primary);">...</span></p>
+                </div>
+                <div id="cmpStatus"></div>
+            </div>
+
+            <!-- Interactive Visual Status Timeline Tracker (OPEN -> ASSIGNED -> IN_PROGRESS -> RESOLVED -> CLOSED) -->
+            <div style="margin: 2.5rem 0 3rem 0;">
+                <h4 style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem;">
+                    Resolution Workflow Progress
+                </h4>
+                
+                <div class="timeline-tracker">
+                    <div id="step-OPEN" class="timeline-step">1</div>
+                    <div id="step-ASSIGNED" class="timeline-step">2</div>
+                    <div id="step-IN_PROGRESS" class="timeline-step">3</div>
+                    <div id="step-RESOLVED" class="timeline-step">4</div>
+                    <div id="step-CLOSED" class="timeline-step">5</div>
+                </div>
+
+                <div class="timeline-labels">
+                    <span>OPEN</span>
+                    <span>ASSIGNED</span>
+                    <span>IN_PROGRESS</span>
+                    <span>RESOLVED</span>
+                    <span>CLOSED</span>
+                </div>
+            </div>
+
+            <!-- Detail Grid -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; background: var(--background); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                <div>
+                    <strong style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase;">Category</strong>
+                    <div id="cmpCategory" style="font-size: 1.05rem; font-weight: 600; margin-top: 0.25rem;">...</div>
+                </div>
+
+                <div>
+                    <strong style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase;">Priority Level</strong>
+                    <div id="cmpPriority" style="margin-top: 0.25rem;">...</div>
+                </div>
+
+                <div>
+                    <strong style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase;">Assigned Staff / Technician</strong>
+                    <div id="cmpAssignedTo" style="font-size: 1rem; font-weight: 600; margin-top: 0.25rem; color: var(--primary-color);">...</div>
+                </div>
+
+                <div>
+                    <strong style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase;">Created Timestamp</strong>
+                    <div id="cmpCreatedAt" style="font-size: 0.95rem; margin-top: 0.25rem;">...</div>
+                </div>
+
+                <div style="grid-column: span 2;">
+                    <strong style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase;">Last Status Update</strong>
+                    <div id="cmpUpdatedAt" style="font-size: 0.95rem; margin-top: 0.25rem;">...</div>
+                </div>
+
+                <div style="grid-column: span 2; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <strong style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase;">Detailed Problem Description</strong>
+                    <p id="cmpDescription" style="margin-top: 0.5rem; font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6; color: var(--text-primary);"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Smart Complaint Management System &copy; 2026
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/user.js"></script>
+</body>
+</html>
