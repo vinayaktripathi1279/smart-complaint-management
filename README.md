@@ -1,6 +1,10 @@
 # Smart Complaint & Service Management System
 
-A production-ready, full-stack **Smart Complaint & Service Management System** built with **Java 17+, Spring Boot 3, Spring Data JPA, MySQL**, and **Vanilla HTML5/CSS3/JavaScript**.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=render)](https://smart-complaint-management.onrender.com)
+[![Java 17](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=java)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.3-green?style=for-the-badge&logo=springboot)](https://spring.io/projects/spring-boot)
+
+A production-ready, full-stack **Smart Complaint & Service Management System** built with **Java 17+, Spring Boot 3, Spring Data JPA, MySQL / H2**, and **Vanilla HTML5/CSS3/JavaScript**.
 
 This project is tailored specifically for **B.Tech placement interviews (e.g., TCS, TCS Prime, Infosys, Wipro)** to demonstrate a clean, understandable, layered Java enterprise architecture with real-world business rules.
 
@@ -130,25 +134,23 @@ The **Smart Complaint & Service Management System** centralizes service requests
 cd smart-complaint-management
 ```
 
-### Step 2: Configure MySQL Database
-Create database in MySQL:
+### Step 2: Configure Database
+Runs automatically out-of-the-box using H2 In-Memory Database.
+To use MySQL, create database:
 ```sql
 CREATE DATABASE smart_complaint_db;
 ```
 
-Update `src/main/resources/application.properties`:
+And update `src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/smart_complaint_db
 spring.datasource.username=root
 spring.datasource.password=YOUR_MYSQL_PASSWORD
 ```
-*(Note: If MySQL is not installed locally, standard H2 memory fallback can be enabled in `application.properties` for testing).*
 
 ### Step 3: Build & Run Application
-Using Maven:
 ```bash
-mvn clean package
-mvn spring-boot:run
+java -jar target/smart-complaint-management-1.0.0.jar
 ```
 
 Once started, open browser at: **`http://localhost:8080`**
@@ -157,17 +159,8 @@ Once started, open browser at: **`http://localhost:8080`**
 
 ## 🔑 8. Sample Demo Credentials
 
-> [!NOTE]
-> Demo credentials pre-seeded automatically by `DataInitializer.java` on first startup:
-
-- **Admin Account**:
-  - Email: `admin@service.com`
-  - Password: `admin123`
-  - Role: `ADMIN`
-- **Student User Account**:
-  - Email: `student@service.com`
-  - Password: `student123`
-  - Role: `USER`
+- **Admin Account**: `admin@service.com` / `admin123`
+- **Student User Account**: `student@service.com` / `student123`
 
 ---
 
